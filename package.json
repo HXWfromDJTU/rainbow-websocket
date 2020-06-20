@@ -1,0 +1,19 @@
+{
+  "name": "rainbow-websocket",
+  "version": "1.0.0",
+  "description": "rainbow-websocket is an basic implement of websocket base on nodejs, including authentication、promise encapsulation、error handle and so on...",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HXWfromDJTU/rainbow-websocket.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HXWfromDJTU/rainbow-websocket/issues"
+  },
+  "homepage": "https://github.com/HXWfromDJTU/rainbow-websocket#readme"
+}
