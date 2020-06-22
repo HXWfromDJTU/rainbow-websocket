@@ -5,7 +5,6 @@ import { ErrorCode } from './errorCode'
 const uniqueId = require('lodash.uniqueid');
 const pkg = require('./package.json')
 const JSON_RPC_VERSION = '2.0'
-const WebSocket = require('ws')
 
 export class RainbowWebsocket extends EventEmitter {
   protected _serverUrl: string // 远端地址
