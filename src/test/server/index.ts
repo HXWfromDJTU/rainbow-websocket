@@ -1,17 +1,12 @@
-const net = require('net')
+const WS = require('ws');
+import { serverConfig } from './config'
 
-export const config = {
-  host: 'localhost',
-  port: '9528'
-}
+const wss = new WS.Server({ port: serverConfig.port });
 
-const server = net.createServer(sock => {
-  sock.on('connection', event => {
-    console.log('server socket connected...')
-  })
-  sock.on('data', event => {
-    console.log('server receive data', event)
-  })
-})
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+  });
 
-server.listen(config.host, config.port)
+  ws.send('something');
+});

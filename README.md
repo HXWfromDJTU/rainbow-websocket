@@ -1,7 +1,6 @@
 # rainbow-websocket
 rainbow-websocket is an basic implement of websocket base on nodejs, including authentication、promise encapsulation、error handle and so on...
 
-
 ## base todo-list
 | No.| feature | process |
 | --- | --- | --- |

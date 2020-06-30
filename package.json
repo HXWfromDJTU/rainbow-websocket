@@ -4,7 +4,7 @@
   "description": "rainbow-websocket is an basic implement of websocket base on nodejs, including authentication、promise encapsulation、error handle and so on...",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ts-node src/test/server/index.ts && ts-node src/test/client/index.ts"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   "devDependencies": {
     "@types/node": "^14.0.13",
     "eventemitter3": "^4.0.4",
-    "lodash.uniqueid": "^4.0.1"
+    "lodash.uniqueid": "^4.0.1",
+    "ws": "^7.3.0"
   }
 }

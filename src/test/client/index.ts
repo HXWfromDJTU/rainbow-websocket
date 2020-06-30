@@ -1,28 +1,38 @@
-import { BackendApi } from './api'
+import { serverConfig} from '../server/config'
+import { RainbowWebsocket} from '../../RainbowWebsocket'
 
-const config = {
-  testServer: 'ws://121.40.165.18:8800',
-  thingubgServer: 'ws://achex.ca:4010',
-  okeyServer: 'wss://real.okex.com:8443/ws/v3?brokerId=9999',
-  huobi: 'wss://api.huobi.pro/ws',
-  huobiAWS: 'wss://api-aws.huobi.pro/ws',
-  binanceApi: 'wss://fstream.binance.com',
-  localServer: 'ws://localhost:3000/events'
+interface IOption {
+  url: string
 }
 
-const OKEX_API = {
-  apiKey: 'd782f728-46ba-4196-92b0-f2b40b802e50',
-  secretKey: 'F64BEB6A286DDB195D19BF44E31EB719',
+export class BackendApi {
+  protected _url:string
+  protected _rainbowWebsocket: RainbowWebsocket
+
+  constructor(option: IOption) {
+    this._url = option.url
+    this._rainbowWebsocket = new RainbowWebsocket({
+      url: this._url
+    })
+  }
+
+  version () {
+    return this._rainbowWebsocket.request({
+      data: null
+    })
+  }
 }
 
-const api = new BackendApi({
-  url: config.localServer
+const backendApi = new BackendApi({
+  url: `${serverConfig.host}:${serverConfig.port}`
 })
 
-const test = async () => {
-  const res = await api.version()
-  console.log('接口返回的数据', res)
-}
 
-setTimeout(test, 3000)
+
+
+const api = new BackendApi({
+  url: serverConfig.host + ':' + serverConfig.port
+})
+
+
 
