@@ -1,5 +1,5 @@
 # rainbow-websocket
-rainbow-websocket is an basic implement of websocket base on nodejs, including authentication、promise encapsulation、error handle and so on...
+rainbow-websocket is an basic implement of websocket, including authentication、promise encapsulation、error handle ...
 
 ## base todo-list
 | No.| feature | process |
@@ -14,3 +14,4 @@ rainbow-websocket is an basic implement of websocket base on nodejs, including a
 | 1 | 以`Promise`的形式调用 |  |
 | 2 | 心跳机制 |  |
 | 3 | 鉴权 |  |
+| 4 | 请求拦截器 |  |
