@@ -15,3 +15,4 @@ rainbow-websocket is an basic implement of websocket, including authentication�
 | 1 | 以`Promise`的形式调用 |  |
 | 2 | 心跳机制 |  |
 | 3 | 鉴权 |  |
+| 4 | 请求拦截器 |  |
