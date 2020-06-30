@@ -1,6 +1,5 @@
 "use strict";
-exports.__esModule = true;
-exports.ErrorCode = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
 // todo: error code 拆分
 var ErrorCode;
 (function (ErrorCode) {

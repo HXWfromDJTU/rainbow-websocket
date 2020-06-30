@@ -1,6 +1,5 @@
 "use strict";
-exports.__esModule = true;
-exports.WEBSOCKET_STATE = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
 // websocket的几个状态
 var WEBSOCKET_STATE;
 (function (WEBSOCKET_STATE) {

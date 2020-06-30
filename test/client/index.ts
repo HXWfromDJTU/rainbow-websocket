@@ -1,5 +1,5 @@
 import { serverConfig} from '../server/config'
-import { RainbowWebsocket} from '../../RainbowWebsocket'
+import { RainbowWebsocket} from '../../src'
 
 interface IOption {
   url: string
