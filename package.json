@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "test": "ts-node src/test/server/index.ts && ts-node src/test/client/index.ts"
+    "test:server": "ts-node test/server/index.ts",
+    "test:client": "ts-node test/client/index.ts"
   },
   "repository": {
     "type": "git",
