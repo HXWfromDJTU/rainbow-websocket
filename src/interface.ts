@@ -1,3 +1,5 @@
+import { InterceptorManager } from './InterceptorManager'
+
 export interface IOption {
   url: string
   logger?: Console

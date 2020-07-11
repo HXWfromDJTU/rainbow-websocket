@@ -2,16 +2,22 @@ import * as EventEmitter from 'eventemitter3'
 import { IOption, IPromise, IResponse, IRequest } from './interface'
 import { WEBSOCKET_STATE } from './const'
 import { ErrorCode } from './errorCode'
+import { InterceptorManager } from './InterceptorManager'
 const uniqueId = require('lodash.uniqueid');
 const pkg = require('../package.json')
 const JSON_RPC_VERSION = '2.0'
 
 export class RainbowWebsocket extends EventEmitter {
   protected _serverUrl: string // 远端地址
-  protected _ws: WebSocket // 原生ws实例
+  public _ws: WebSocket // 原生ws实例
   protected _promises: Map<string, IPromise> // 请求哈希表
   protected _logger: Console // 日志工具
   protected _waitingQueue: Array<any> // websocket状态异常、未建立的时候，存储请求
+
+  public interceptors: {
+    request: InterceptorManager
+    response: InterceptorManager
+  }
 
   constructor (option: IOption) {
     super()
@@ -20,6 +26,10 @@ export class RainbowWebsocket extends EventEmitter {
     this._logger = option.logger || console
     this._waitingQueue = []
     this._promises = new Map()
+    this.interceptors = {
+      request: new InterceptorManager(),
+      response: new InterceptorManager()
+    }
 
     this._ws.onmessage = event => {
       console.log(event.data)
@@ -38,6 +48,16 @@ export class RainbowWebsocket extends EventEmitter {
         this._ws.send(this._toDataString(payload))
       })
     }
+
+    this._ws.onclose = event => {
+      this._logger.log(`RainbowWebsocket has close ......`)
+
+      // 将所有未处理的请求都reject调
+      for (const record of this._promises) { // 遍历Set
+        const request = record[1]
+        request.reject(ErrorCode.DISCONNECT)
+      }
+    }
   }
 
   request (data: any): Promise<any> {
@@ -48,16 +68,19 @@ export class RainbowWebsocket extends EventEmitter {
         jsonrpc: JSON_RPC_VERSION
       })
 
+      // 通过请求拦截器
+      const _payload = this._requestInterceptorExecutor(payload)
+
       // 登记请求
       this._promises.set(data.id, {
         resolve,
         reject,
-        method: payload.method,
+        method: _payload.method,
       })
 
       // 若ws连接达成，则先缓存请求
       if (this._ws.readyState === WEBSOCKET_STATE.CONNECTING) {
-        this._waitingQueue.push(payload)
+        this._waitingQueue.push(_payload)
         return
       }
 
@@ -75,25 +98,43 @@ export class RainbowWebsocket extends EventEmitter {
 
       this._logger.log('response msg:', msg)
 
-
       const promise: IPromise = this._promises.get(res.id)
 
       // todo: 删除处理过的promise
       this._promises.delete(res.id)
       this._logger.log('RainbowWebsocket delete the promise, id=', res.id)
 
+      // 响应中间件
+      const _res = this._responseInterceptorExecutor(res)
+
       // todo: 根据errno决定执行哪一个reject还是resolve
-      if (res.errCode !== ErrorCode.SUCCESS) {
-        promise.reject(res.errCode)
+      if (_res.errCode !== ErrorCode.SUCCESS) {
+        promise.reject(_res.errCode)
       }
       else {
-        promise.resolve(res.data)
+        promise.resolve(_res.data)
       }
     }
     catch (err) {
       this._logger.error('response msg parse fail')
       return
     }
+  }
+
+  _requestInterceptorExecutor (payload) {
+    let _payload = payload
+    this.interceptors.request.forEach((handler: Function) => {
+      _payload = handler(_payload)
+    })
+    return _payload
+  }
+
+  _responseInterceptorExecutor (payload) {
+    let _payload = payload
+    this.interceptors.response.forEach((handler: Function) => {
+      _payload = handler(_payload)
+    })
+    return _payload
   }
 
   _toDataString(data: any) {
