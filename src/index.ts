@@ -60,7 +60,7 @@ export class RainbowWebsocket extends EventEmitter {
     }
   }
 
-  request (data: any): Promise<any> {
+  request (data: any, isNotify = false): Promise<any> {
     return new Promise((resolve, reject): void => {
 
       const payload = Object.assign(data, {
@@ -71,14 +71,16 @@ export class RainbowWebsocket extends EventEmitter {
       // 通过请求拦截器
       const _payload = this._requestInterceptorExecutor(payload)
 
-      // 登记请求
-      this._promises.set(data.id, {
-        resolve,
-        reject,
-        method: _payload.method,
-      })
+      if (!isNotify) {
+        // 登记请求
+        this._promises.set(data.id, {
+          resolve,
+          reject,
+          method: _payload.method
+        })
+      }
 
-      // 若ws连接达成，则先缓存请求
+      // 若ws连接尚未达成，则先缓存请求
       if (this._ws.readyState === WEBSOCKET_STATE.CONNECTING) {
         this._waitingQueue.push(_payload)
         return
@@ -107,12 +109,18 @@ export class RainbowWebsocket extends EventEmitter {
       // 响应中间件
       const _res = this._responseInterceptorExecutor(res)
 
-      // todo: 根据errno决定执行哪一个reject还是resolve
-      if (_res.errCode !== ErrorCode.SUCCESS) {
-        promise.reject(_res.errCode)
+      // 判断是否是通知性的消息
+      if (isNotifyMsg(res)) {
+        this.emit(`notify:${ res.method }`, res.data)
       }
       else {
-        promise.resolve(_res.data)
+        // todo: 根据errno决定执行哪一个reject还是resolve
+        if (_res.errCode !== ErrorCode.SUCCESS) {
+          promise.reject(_res.errCode)
+        }
+        else {
+          promise.resolve(_res.data)
+        }
       }
     }
     catch (err) {
