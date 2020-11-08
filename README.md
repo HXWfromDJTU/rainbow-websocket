@@ -1,4 +1,6 @@
 # rainbow-websocket
+[![npm version](https://badge.fury.io/js/rainbow-websocket.svg)](//npmjs.com/package/rainbow-websocket)     
+
 rainbow-websocket is an basic implement of websocket, including authorization、promise encapsulation、error handle ...
 
 ## base todo-list
