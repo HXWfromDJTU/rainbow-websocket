@@ -5,3 +5,5 @@ export enum WEBSOCKET_STATE {
   CLOSING = 2,
   CLOSED = 3,
 }
+
+export const SDK_NAME = 'RainbowWebsocket'
