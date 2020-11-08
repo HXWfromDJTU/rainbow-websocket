@@ -7,10 +7,35 @@
   <title>Rainbow Websocket Test</title>
 </head>
 <body>
-
+<div id="app">
+  data: <input type="text" v-model="message" />
+  <button @click="onClickSendMsg">Send</button>
+</div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script type="text/javascript">
+  const testServer = 'ws://localhost:9527'
 
+  const websocketChannel = new window.RainbowWebsocket({
+    url: testServer
+  })
+
+  new Vue({
+    el: '#app',
+    data () {
+      return {
+        message: 'test message'
+      }
+    },
+    methods: {
+      onClickSendMsg () {
+        websocketChannel.request({
+          data: {
+            text: this.message
+          }
+        })
+      }
+    }
+  })
 </script>
 </html>

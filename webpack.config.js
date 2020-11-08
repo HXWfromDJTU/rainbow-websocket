@@ -56,10 +56,13 @@ module.exports = function (env = {}, argv) {
     ],
     devtool: false,
     devServer: {
-      host: '0.0.0.0',
+      host: 'localhost',
+      open: "Google Chrome",
+      openPage: 'app.html',
       disableHostCheck: true,
+      hot: true,
       contentBase: [
-        path.resolve(__dirname, 'dist')
+        path.resolve(__dirname, 'dist/umd')
       ],
     }
   }

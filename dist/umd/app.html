@@ -11,6 +11,10 @@
 <script src="rainbow-websocket.umd.min.js"></script></body>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script type="text/javascript">
+  const testServer = 'localhost:9527'
 
+  const websocketChannel = new window.RainbowWebsocket({
+    url: testServer
+  })
 </script>
 </html>

@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 const net = require('net')
 import { serverConfig } from './config'
 const crypto = require('crypto');
-const headerParser = require('parse-headers')
+// const headerParser = require('parse-headers')
 //
 // const server = net.createServer(socket => {
 //   console.log('req')
@@ -48,8 +48,10 @@ const headerParser = require('parse-headers')
 
 const wss = new WebSocket.Server({ port: serverConfig.port });
 
+console.log(`websocket test server listen on ${serverConfig.host}:${serverConfig.port}`)
+
 wss.on('connection', function connection(ws) {
-  console.log('ws server is ready, listening on localhost:' + serverConfig.port)
+  console.log('ws server connected')
 
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);

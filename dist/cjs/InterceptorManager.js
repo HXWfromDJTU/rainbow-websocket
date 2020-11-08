@@ -18,4 +18,3 @@ class InterceptorManager {
     }
 }
 exports.InterceptorManager = InterceptorManager;
-module.exports = InterceptorManager;

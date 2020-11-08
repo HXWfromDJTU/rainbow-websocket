@@ -659,7 +659,6 @@ var InterceptorManager = /** @class */ (function () {
     return InterceptorManager;
 }());
 exports.InterceptorManager = InterceptorManager;
-module.exports = InterceptorManager;
 
 
 /***/ }),

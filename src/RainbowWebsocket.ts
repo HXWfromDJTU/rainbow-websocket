@@ -4,7 +4,7 @@ import { WEBSOCKET_STATE } from './const'
 import { ErrorCode } from './errorCode'
 import { InterceptorManager } from './InterceptorManager'
 import { isNotifyMsg } from './helper'
-const uniqueId = require('lodash.uniqueid');
+const uniqueId = require('lodash.uniqueid')
 const JSON_RPC_VERSION = '2.0'
 
 export class RainbowWebsocket extends EventEmitter {

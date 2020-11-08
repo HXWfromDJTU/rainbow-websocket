@@ -1,6 +1,6 @@
 {
   "name": "rainbow-websocket",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "rainbow-websocket is an basic implement of websocket base on nodejs, including authentication、promise encapsulation、error handle and so on...",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -9,8 +9,8 @@
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:umd": "webpack --mode=production --config webpack.config.js",
-    "test:server": "ts-node test/server/index.ts",
-    "test:client": "ts-node test/client/index.ts"
+    "test:ws-server": "ts-node test/server/index.ts",
+    "test": "webpack-dev-server --config webpack.config.js --open"
   },
   "repository": {
     "type": "git",
@@ -31,10 +31,12 @@
     "lodash.uniqueid": "^4.0.1",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.7",
+    "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.3.0",
     "ws": "^7.3.0"
   },
   "dependencies": {
+    "eslint": "^7.13.0",
     "typescript": "^3.9.6",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12"

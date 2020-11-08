@@ -23,5 +23,3 @@ export class InterceptorManager {
     this.handlers.forEach(fn)
   }
 }
-
-module.exports = InterceptorManager;
