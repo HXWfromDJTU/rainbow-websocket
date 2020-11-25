@@ -21,9 +21,9 @@ class RainbowWebsocket extends EventEmitter {
             response: new InterceptorManager_1.InterceptorManager()
         };
         this._ws.onmessage = event => {
-            console.log(event.data);
+            console.log('RainbowWebsocket has received', event.data);
             // 简单的检测过后，进行相应处理
-            if (event.data && typeof event.data === 'string' && event.data.includes(JSON_RPC_VERSION)) {
+            if (event.data && typeof event.data === 'string' && event.data.includes(`"jsonrpc": "${JSON_RPC_VERSION}"`)) {
                 this.response(event.data);
             }
         };
@@ -46,7 +46,7 @@ class RainbowWebsocket extends EventEmitter {
     request(data, isNotify = false) {
         return new Promise((resolve, reject) => {
             const payload = Object.assign(data, {
-                id: uniqueId(RainbowWebsocket + '-'),
+                id: uniqueId('rainbow-websocket' + '-'),
                 jsonrpc: JSON_RPC_VERSION
             });
             // 通过请求拦截器
@@ -79,6 +79,7 @@ class RainbowWebsocket extends EventEmitter {
             this._logger.log('RainbowWebsocket delete the promise, id=', res.id);
             // 响应中间件
             const _res = this._responseInterceptorExecutor(res);
+            this._logger.log('RainbowWebsocket =======', _res);
             // 判断是否是通知性的消息
             if (helper_1.isNotifyMsg(res)) {
                 this.emit(`notify:${res.method}`, res.data);

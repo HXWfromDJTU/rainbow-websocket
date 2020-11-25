@@ -1,15 +1,15 @@
 import { serverConfig} from '../server/config'
 import RainbowWebsocket from '../../dist/esm'
 
-interface IOption {
-  url: string
-}
+// class IOption {
+//   url: string
+// }
 
 export class BackendApi {
   protected _url:string
   protected _rainbowWebsocket: RainbowWebsocket
 
-  constructor(option: IOption) {
+  constructor(option: any) {
     this._url = option.url
     this._rainbowWebsocket = new RainbowWebsocket({
       url: this._url
@@ -18,12 +18,17 @@ export class BackendApi {
 
   version () {
     return this._rainbowWebsocket.request({
-      data: null
+      data: {
+        method: 'version',
+        params: {
+          latest: true
+        }
+      }
     })
   }
 }
 
-const backendApi = new BackendApi({
+window.backendApi = new BackendApi({
   url: `${serverConfig.host}:${serverConfig.port}`
 })
 

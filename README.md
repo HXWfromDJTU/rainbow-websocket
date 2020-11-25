@@ -6,17 +6,32 @@ rainbow-websocket is an basic implement of websocket, including authorization、
 ## base todo-list
 | No.| feature | process |
 | --- | --- | --- |
-| 1 | 异常处理 与 错误码 |  |
-| 2 | 等待连接的请求处理 |  |
+| 1 | 异常处理 与 错误码 | 👌 |
+| 2 | 等待连接的请求处理 |  👌 |
 | 3 | 推送通知 |  |
 
 ## feature todo-list
 | No.| feature | process |
 | --- | --- | --- |
-| 1 | 以`Promise`的形式调用 |  |
+| 1 | 以`Promise`的形式调用 | 👌  |
 | 2 | 心跳机制 |  |
 | 3 | 鉴权 |  |
-| 4 | 请求拦截器 |  |
+| 4 | 请求拦截器 | 👌 |
+
+## build
+```conf
+# build all
+$ npm run build
+
+# esm
+$ npm run build:esm
+
+# cjs
+$ npm run build:cjs
+
+# umd
+$ npm run build:umd
+```
 
 ## import
 ```js
@@ -33,8 +48,8 @@ const RainbowWebsocket = require('rainbow-websocket')
 ## test
 ```cnof
 # websocket test server
-npm run test:ws-server
+npm run ws-server
 
 # test page
-npm run test
+npm run page-test
 ```

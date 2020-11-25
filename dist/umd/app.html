@@ -7,14 +7,31 @@
   <title>Rainbow Websocket Test</title>
 </head>
 <body>
-
-<script src="rainbow-websocket.umd.min.js"></script></body>
+<div id="app">
+  data: <input type="text" v-model="message" />
+  <button @click="onClickSendMsg">Send</button>
+</div>
+<script src="rainbow-websocket.index.21cce.umd.min.js"></script><script src="rainbow-websocket.test_bundle.21cce.umd.min.js"></script></body>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script type="text/javascript">
-  const testServer = 'localhost:9527'
-
-  const websocketChannel = new window.RainbowWebsocket({
-    url: testServer
+  new Vue({
+    el: '#app',
+    data () {
+      return {
+        message: 'test message'
+      }
+    },
+    methods: {
+      async onClickSendMsg () {
+        const resVersion = backendApi.version()
+                            .then(res => {
+                              console.log('page received data:', res)
+                            })
+                            .catch(err => {
+                              console.error(err)
+                            })
+      }
+    }
   })
 </script>
 </html>

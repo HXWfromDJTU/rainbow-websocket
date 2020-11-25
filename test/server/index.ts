@@ -2,6 +2,7 @@ const WebSocket = require('ws');
 const net = require('net')
 import { serverConfig } from './config'
 const crypto = require('crypto');
+import { ErrorCode } from "../../src/errorCode"
 // const headerParser = require('parse-headers')
 //
 // const server = net.createServer(socket => {
@@ -53,8 +54,24 @@ console.log(`websocket test server listen on ${serverConfig.host}:${serverConfig
 wss.on('connection', function connection(ws) {
   console.log('ws server connected')
 
-  ws.on('message', function incoming(message) {
+  ws.on('message', (message) => {
     console.log('received: %s', message);
+
+    try {
+      const dataFromClient = JSON.parse(message)
+
+      ws.send(JSON.stringify({
+        id: dataFromClient.id,
+        jsonrpc: dataFromClient.jsonrpc,
+        errCode: ErrorCode.SUCCESS,
+        data: {
+          msg: 'from server'
+        }
+      }))
+    
+    } catch (err) {
+      console.error(err)
+    }
   });
 
   ws.on('close', function incoming(message) {
